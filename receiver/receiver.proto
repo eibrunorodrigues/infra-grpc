@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package receiver;
+
+message ReceiverResponse {
+  map<string, string> filters = 1;
+  string destination = 2;
+  bytes content = 3;
+  bool is_a_redelivery = 4;
+}
+
+message ReceiverArgs {
+  string queue_name = 1;
+}
+
+//message ReceptionResponse {
+//  bool success = 1;
+//  int64 messageTag = 2;
+//  bool requeue = 3;
+//}
+
+service Receiver {
+  rpc Receive(ReceiverArgs) returns (stream ReceiverResponse) {}
+}
