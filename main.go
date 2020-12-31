@@ -2,13 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+	"strings"
+
 	"github.com/eibrunorodrigues/infra-grpc/receiver"
 	"github.com/eibrunorodrigues/infra-grpc/sender"
 	"github.com/eibrunorodrigues/rabbitmq-go/rabbitmq"
 	"github.com/eibrunorodrigues/rabbitmq-go/types"
+	"github.com/segmentio/ksuid"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 type Publisher struct {
@@ -65,7 +68,12 @@ func (r *Receiver) Receive(args *receiver.ReceiverArgs, server receiver.Receiver
 	if !r.instantiated {
 		r.New()
 	}
-	messages, err := r.Client.Connect().Consume(args.QueueName, args.QueueName, false, false, false, false, nil)
+
+	fmt.Println("\nSomebody is connected")
+
+	consumer := fmt.Sprintf("%s-%s", args.QueueName, ksuid.New().String())
+	messages, err := r.Client.Connect().Consume(args.QueueName, consumer, false, false, false, false, nil)
+
 	if err != nil {
 		return err
 	}
@@ -81,10 +89,12 @@ func (r *Receiver) Receive(args *receiver.ReceiverArgs, server receiver.Receiver
 		}
 
 		if err := server.Send(&resp); err != nil {
-			r.Client.RejectMessage(int(message.DeliveryTag), !receiverModel.IsARedelivery)
-			return err
-		} else {
-			r.Client.AcknowledgeMessage(int(message.DeliveryTag))
+			if strings.Contains(err.Error(), "closing") {
+				_ = r.Client.Close()
+			} else {
+				r.Client.RejectMessage(int(message.DeliveryTag), !receiverModel.IsARedelivery)
+			}
+			break
 		}
 	}
 	return nil
@@ -108,9 +118,9 @@ func filtersToMapString(filters []types.Filters) map[string]string {
 }
 
 func main() {
-	lis, err := net.Listen("tcp", ":9000")
+	lis, err := net.Listen("tcp", ":5052")
 	if err != nil {
-		log.Fatalf("Failed to serve TCP 9000: %v", err)
+		log.Fatalf("Failed to serve TCP 5052: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
@@ -121,6 +131,6 @@ func main() {
 	receiver.RegisterReceiverServer(grpcServer, &receptor)
 
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to serve GRPC 9000: %v", err)
+		log.Fatalf("Failed to serve GRPC 5052: %v", err)
 	}
 }
