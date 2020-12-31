@@ -9,4 +9,4 @@ require (
 	google.golang.org/grpc v1.34.0
 )
 
-replace github.com/eibrunorodrigues/rabbitmq-go => ../github.com/eibrunorodrigues/rabbitmq-go
+// replace github.com/eibrunorodrigues/rabbitmq-go => ../github.com/eibrunorodrigues/rabbitmq-go

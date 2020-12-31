@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package sender;
+
+enum Destiny {
+    QUEUE = 0;
+    EXCHANGE = 1;
+}
+
+message SenderArgs {
+    map<string, string> header = 1;
+    Destiny destiny_type = 2;
+    string destination = 3;
+    bytes content = 4;
+}
+
+message Bool { bool status = 1; }
+
+service Sender {
+    rpc Publish(stream SenderArgs) returns (Bool) {}
+}
+
