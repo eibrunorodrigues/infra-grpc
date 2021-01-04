@@ -1,4 +1,64 @@
 syntax = "proto3";
 
-package oschestrator;
+package orchestrator;
 
+message MessageId {
+  int64 messageId = 1;
+}
+
+message Reject {
+  MessageId id = 1;
+  bool requeue = 2;
+}
+
+message Name {
+  string name = 1;
+}
+
+message QueueCreation {
+  string queueName = 1;
+  bool createDlq = 2;
+  bool isAnExclusive = 3;
+}
+
+message RouterCreation {
+  string routerName = 1;
+  RouterPrefix prefix = 2;
+  RouterType routerType = 3;
+}
+
+message Bind {
+  string destination = 1;
+  string source = 2;
+  map<string, string> filters = 3;
+}
+
+message Status {
+  bool status = 1;
+}
+
+enum RouterPrefix {
+    P_DIRECT = 0;
+    P_TOPIC = 1;
+    P_HEADERS = 2;
+    P_FANOUT = 3;
+}
+
+enum RouterType {
+    T_QUEUE = 0;
+    T_TOPIC = 1;
+    T_HEADERS = 2;
+}
+
+service Orchestrator {
+  rpc AcknowledgeMessage(MessageId) returns (Status) {}
+  rpc RejectMessage(Reject) returns (Status) {}
+  rpc CheckIfQueueExists(Name)  returns (Status) {}
+  rpc CheckIfRouterExists(Name)  returns (Status) {}
+  rpc CreateQueue(QueueCreation) returns (Name) {}
+  rpc CreateRouter(RouterCreation) returns (Name) {}
+  rpc DeleteQueue(Name) returns (Status) {}
+  rpc DeleteRouter(Name) returns (Status) {}
+  rpc BindQueueToRouter(Bind) returns (Status) {}
+  rpc BindRouterToRouter(Bind) returns (Status) {}
+}
