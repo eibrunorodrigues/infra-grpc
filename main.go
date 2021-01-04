@@ -255,7 +255,7 @@ func (r *Receiver) Receive(args *receiver.ReceiverArgs, server receiver.Receiver
 			if strings.Contains(err.Error(), "closing") {
 				_ = r.Client.Close()
 			} else {
-				r.Client.RejectMessage(int(message.DeliveryTag), !receiverModel.IsARedelivery)
+				_ = r.Client.RejectMessage(int(message.DeliveryTag), !receiverModel.IsARedelivery)
 			}
 			break
 		}
