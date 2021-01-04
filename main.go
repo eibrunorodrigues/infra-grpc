@@ -60,7 +60,7 @@ func (o *Orchestrator) New() {
 }
 
 //AcknowledgeMessage
-func (o *Orchestrator) AcknowledgeMessage(ctx context.Context, arg *orchestrator.MessageId) (*orchestrator.Status, error) {
+func (o *Orchestrator) AcknowledgeMessage(_ context.Context, arg *orchestrator.MessageId) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -75,7 +75,7 @@ func (o *Orchestrator) AcknowledgeMessage(ctx context.Context, arg *orchestrator
 }
 
 //RejectMessage
-func (o *Orchestrator) RejectMessage(ctx context.Context, arg *orchestrator.Reject) (*orchestrator.Status, error) {
+func (o *Orchestrator) RejectMessage(_ context.Context, arg *orchestrator.Reject) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -90,7 +90,7 @@ func (o *Orchestrator) RejectMessage(ctx context.Context, arg *orchestrator.Reje
 }
 
 //CheckIfQueueExists
-func (o *Orchestrator) CheckIfQueueExists(ctx context.Context, arg *orchestrator.Name) (*orchestrator.Status, error) {
+func (o *Orchestrator) CheckIfQueueExists(_ context.Context, arg *orchestrator.Name) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -99,7 +99,7 @@ func (o *Orchestrator) CheckIfQueueExists(ctx context.Context, arg *orchestrator
 }
 
 //CheckIfRouterExists
-func (o *Orchestrator) CheckIfRouterExists(ctx context.Context, arg *orchestrator.Name) (*orchestrator.Status, error) {
+func (o *Orchestrator) CheckIfRouterExists(_ context.Context, arg *orchestrator.Name) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -108,7 +108,7 @@ func (o *Orchestrator) CheckIfRouterExists(ctx context.Context, arg *orchestrato
 }
 
 //CreateQueue
-func (o *Orchestrator) CreateQueue(ctx context.Context, arg *orchestrator.QueueCreation) (*orchestrator.Name, error) {
+func (o *Orchestrator) CreateQueue(_ context.Context, arg *orchestrator.QueueCreation) (*orchestrator.Name, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -122,7 +122,7 @@ func (o *Orchestrator) CreateQueue(ctx context.Context, arg *orchestrator.QueueC
 }
 
 //CreateRouter
-func (o *Orchestrator) CreateRouter(ctx context.Context, arg *orchestrator.RouterCreation) (*orchestrator.Name, error) {
+func (o *Orchestrator) CreateRouter(_ context.Context, arg *orchestrator.RouterCreation) (*orchestrator.Name, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -174,7 +174,7 @@ func (o *Orchestrator) DeleteRouter(ctx context.Context, arg *orchestrator.Name)
 }
 
 //BindQueueToRouter
-func (o *Orchestrator) BindQueueToRouter(ctx context.Context, arg *orchestrator.Bind) (*orchestrator.Status, error) {
+func (o *Orchestrator) BindQueueToRouter(_ context.Context, arg *orchestrator.Bind) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
@@ -188,7 +188,7 @@ func (o *Orchestrator) BindQueueToRouter(ctx context.Context, arg *orchestrator.
 }
 
 //BindRouterToRouter
-func (o *Orchestrator) BindRouterToRouter(ctx context.Context, arg *orchestrator.Bind) (*orchestrator.Status, error) {
+func (o *Orchestrator) BindRouterToRouter(_ context.Context, arg *orchestrator.Bind) (*orchestrator.Status, error) {
 	if !o.instantiated {
 		o.New()
 	}
