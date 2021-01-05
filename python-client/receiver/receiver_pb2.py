@@ -19,10 +19,81 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n!contracts/rabbitmq/receiver.proto\x12\x08receiver\"\xcf\x01\n\x10ReceiverResponse\x12\x38\n\x07\x66ilters\x18\x01 \x03(\x0b\x32\'.receiver.ReceiverResponse.FiltersEntry\x12\x13\n\x0b\x64\x65stination\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\x12\x17\n\x0fis_a_redelivery\x18\x04 \x01(\x08\x12\x12\n\nmessage_id\x18\x05 \x01(\x03\x1a.\n\x0c\x46iltersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\"\n\x0cReceiverArgs\x12\x12\n\nqueue_name\x18\x01 \x01(\t2M\n\x08Receiver\x12\x41\n\x07Receive\x12\x16.receiver.ReceiverArgs\x1a\x1a.receiver.ReceiverResponse\"\x00\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n!contracts/rabbitmq/receiver.proto\x12\x08receiver\"\x1f\n\tMessageId\x12\x12\n\nmessage_id\x18\x01 \x01(\x03\":\n\x06Reject\x12\x1f\n\x02id\x18\x01 \x01(\x0b\x32\x13.receiver.MessageId\x12\x0f\n\x07requeue\x18\x02 \x01(\x08\"\xcf\x01\n\x10ReceiverResponse\x12\x38\n\x07\x66ilters\x18\x01 \x03(\x0b\x32\'.receiver.ReceiverResponse.FiltersEntry\x12\x13\n\x0b\x64\x65stination\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\x12\x17\n\x0fis_a_redelivery\x18\x04 \x01(\x08\x12\x12\n\nmessage_id\x18\x05 \x01(\x03\x1a.\n\x0c\x46iltersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\"\n\x0cReceiverArgs\x12\x12\n\nqueue_name\x18\x01 \x01(\t\"\x1e\n\x0c\x41\x63tionStatus\x12\x0e\n\x06status\x18\x01 \x01(\x08\x32\xcf\x01\n\x08Receiver\x12\x43\n\x12\x41\x63knowledgeMessage\x12\x13.receiver.MessageId\x1a\x16.receiver.ActionStatus\"\x00\x12;\n\rRejectMessage\x12\x10.receiver.Reject\x1a\x16.receiver.ActionStatus\"\x00\x12\x41\n\x07Receive\x12\x16.receiver.ReceiverArgs\x1a\x1a.receiver.ReceiverResponse\"\x00\x30\x01\x62\x06proto3'
 )
 
 
+
+
+_MESSAGEID = _descriptor.Descriptor(
+  name='MessageId',
+  full_name='receiver.MessageId',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='message_id', full_name='receiver.MessageId.message_id', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=47,
+  serialized_end=78,
+)
+
+
+_REJECT = _descriptor.Descriptor(
+  name='Reject',
+  full_name='receiver.Reject',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='receiver.Reject.id', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='requeue', full_name='receiver.Reject.requeue', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=80,
+  serialized_end=138,
+)
 
 
 _RECEIVERRESPONSE_FILTERSENTRY = _descriptor.Descriptor(
@@ -59,8 +130,8 @@ _RECEIVERRESPONSE_FILTERSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=209,
-  serialized_end=255,
+  serialized_start=302,
+  serialized_end=348,
 )
 
 _RECEIVERRESPONSE = _descriptor.Descriptor(
@@ -118,8 +189,8 @@ _RECEIVERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=48,
-  serialized_end=255,
+  serialized_start=141,
+  serialized_end=348,
 )
 
 
@@ -150,15 +221,65 @@ _RECEIVERARGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=257,
-  serialized_end=291,
+  serialized_start=350,
+  serialized_end=384,
 )
 
+
+_ACTIONSTATUS = _descriptor.Descriptor(
+  name='ActionStatus',
+  full_name='receiver.ActionStatus',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='receiver.ActionStatus.status', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=386,
+  serialized_end=416,
+)
+
+_REJECT.fields_by_name['id'].message_type = _MESSAGEID
 _RECEIVERRESPONSE_FILTERSENTRY.containing_type = _RECEIVERRESPONSE
 _RECEIVERRESPONSE.fields_by_name['filters'].message_type = _RECEIVERRESPONSE_FILTERSENTRY
+DESCRIPTOR.message_types_by_name['MessageId'] = _MESSAGEID
+DESCRIPTOR.message_types_by_name['Reject'] = _REJECT
 DESCRIPTOR.message_types_by_name['ReceiverResponse'] = _RECEIVERRESPONSE
 DESCRIPTOR.message_types_by_name['ReceiverArgs'] = _RECEIVERARGS
+DESCRIPTOR.message_types_by_name['ActionStatus'] = _ACTIONSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+MessageId = _reflection.GeneratedProtocolMessageType('MessageId', (_message.Message,), {
+  'DESCRIPTOR' : _MESSAGEID,
+  '__module__' : 'contracts.rabbitmq.receiver_pb2'
+  # @@protoc_insertion_point(class_scope:receiver.MessageId)
+  })
+_sym_db.RegisterMessage(MessageId)
+
+Reject = _reflection.GeneratedProtocolMessageType('Reject', (_message.Message,), {
+  'DESCRIPTOR' : _REJECT,
+  '__module__' : 'contracts.rabbitmq.receiver_pb2'
+  # @@protoc_insertion_point(class_scope:receiver.Reject)
+  })
+_sym_db.RegisterMessage(Reject)
 
 ReceiverResponse = _reflection.GeneratedProtocolMessageType('ReceiverResponse', (_message.Message,), {
 
@@ -182,6 +303,13 @@ ReceiverArgs = _reflection.GeneratedProtocolMessageType('ReceiverArgs', (_messag
   })
 _sym_db.RegisterMessage(ReceiverArgs)
 
+ActionStatus = _reflection.GeneratedProtocolMessageType('ActionStatus', (_message.Message,), {
+  'DESCRIPTOR' : _ACTIONSTATUS,
+  '__module__' : 'contracts.rabbitmq.receiver_pb2'
+  # @@protoc_insertion_point(class_scope:receiver.ActionStatus)
+  })
+_sym_db.RegisterMessage(ActionStatus)
+
 
 _RECEIVERRESPONSE_FILTERSENTRY._options = None
 
@@ -192,13 +320,33 @@ _RECEIVER = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=293,
-  serialized_end=370,
+  serialized_start=419,
+  serialized_end=626,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='AcknowledgeMessage',
+    full_name='receiver.Receiver.AcknowledgeMessage',
+    index=0,
+    containing_service=None,
+    input_type=_MESSAGEID,
+    output_type=_ACTIONSTATUS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='RejectMessage',
+    full_name='receiver.Receiver.RejectMessage',
+    index=1,
+    containing_service=None,
+    input_type=_REJECT,
+    output_type=_ACTIONSTATUS,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
   _descriptor.MethodDescriptor(
     name='Receive',
     full_name='receiver.Receiver.Receive',
-    index=0,
+    index=2,
     containing_service=None,
     input_type=_RECEIVERARGS,
     output_type=_RECEIVERRESPONSE,

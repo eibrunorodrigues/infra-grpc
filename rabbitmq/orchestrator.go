@@ -23,36 +23,6 @@ func (o *Orchestrator) New() {
 	o.instantiated = true
 }
 
-//AcknowledgeMessage
-func (o *Orchestrator) AcknowledgeMessage(_ context.Context, arg *proto.MessageId) (*proto.Status, error) {
-	if !o.instantiated {
-		o.New()
-	}
-
-	err := o.Client.AcknowledgeMessage(int(arg.MessageId))
-
-	if err != nil {
-		return &proto.Status{Status: false}, err
-	}
-
-	return &proto.Status{Status: true}, nil
-}
-
-//RejectMessage
-func (o *Orchestrator) RejectMessage(_ context.Context, arg *proto.Reject) (*proto.Status, error) {
-	if !o.instantiated {
-		o.New()
-	}
-
-	err := o.Client.RejectMessage(int(arg.Id.MessageId), arg.Requeue)
-
-	if err != nil {
-		return &proto.Status{Status: false}, err
-	}
-
-	return &proto.Status{Status: true}, nil
-}
-
 //CheckIfQueueExists
 func (o *Orchestrator) CheckIfQueueExists(_ context.Context, arg *proto.Name) (*proto.Status, error) {
 	if !o.instantiated {

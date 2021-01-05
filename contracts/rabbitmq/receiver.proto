@@ -2,6 +2,15 @@ syntax = "proto3";
 
 package receiver;
 
+message MessageId {
+  int64 message_id = 1;
+}
+
+message Reject {
+  MessageId id = 1;
+  bool requeue = 2;
+}
+
 message ReceiverResponse {
   map<string, string> filters = 1;
   string destination = 2;
@@ -14,7 +23,12 @@ message ReceiverArgs {
   string queue_name = 1;
 }
 
+message ActionStatus {
+  bool status = 1;
+}
 
 service Receiver {
+  rpc AcknowledgeMessage(MessageId) returns (ActionStatus) {}
+  rpc RejectMessage(Reject) returns (ActionStatus) {}
   rpc Receive(ReceiverArgs) returns (stream ReceiverResponse) {}
 }

@@ -1,6 +1,7 @@
 package rabbitmq
 
 import (
+	"context"
 	"fmt"
 	"github.com/eibrunorodrigues/infra-grpc/rabbitmq/proto"
 	"github.com/eibrunorodrigues/rabbitmq-go/rabbitmq"
@@ -59,6 +60,36 @@ func (r *Receiver) Receive(args *proto.ReceiverArgs, server proto.Receiver_Recei
 		}
 	}
 	return nil
+}
+
+//AcknowledgeMessage needs to be in the same channel that the consumer
+func (r *Receiver) AcknowledgeMessage(_ context.Context, arg *proto.MessageId) (*proto.ActionStatus, error) {
+	if !r.instantiated {
+		r.New()
+	}
+
+	err := r.Client.AcknowledgeMessage(int(arg.MessageId))
+
+	if err != nil {
+		return &proto.ActionStatus{Status: false}, err
+	}
+
+	return &proto.ActionStatus{Status: true}, nil
+}
+
+//RejectMessage  needs to be in the same channel that the consumer
+func (r *Receiver) RejectMessage(_ context.Context, arg *proto.Reject) (*proto.ActionStatus, error) {
+	if !r.instantiated {
+		r.New()
+	}
+
+	err := r.Client.RejectMessage(int(arg.Id.MessageId), arg.Requeue)
+
+	if err != nil {
+		return &proto.ActionStatus{Status: false}, err
+	}
+
+	return &proto.ActionStatus{Status: true}, nil
 }
 
 func filtersToMapString(filters []types.Filters) map[string]string {

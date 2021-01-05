@@ -2,15 +2,6 @@ syntax = "proto3";
 
 package orchestrator;
 
-message MessageId {
-  int64 message_id = 1;
-}
-
-message Reject {
-  MessageId id = 1;
-  bool requeue = 2;
-}
-
 message Name {
   string name = 1;
 }
@@ -51,8 +42,6 @@ enum RouterType {
 }
 
 service Orchestrator {
-  rpc AcknowledgeMessage(MessageId) returns (Status) {}
-  rpc RejectMessage(Reject) returns (Status) {}
   rpc CheckIfQueueExists(Name)  returns (Status) {}
   rpc CheckIfRouterExists(Name)  returns (Status) {}
   rpc CreateQueue(QueueCreation) returns (Name) {}

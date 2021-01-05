@@ -39,14 +39,14 @@ class BrokerClient(object):
         self.__messages.append(message)
 
     def acknowledge_message(self, message_id: int):
-        return self.orchestrator.AcknowledgeMessage(
-            orchestrator_pb2.MessageId(message_id=message_id)
+        return self.receiver.AcknowledgeMessage(
+            pb2.MessageId(message_id=message_id)
         ).status
 
     def reject_message(self, message_id: int, requeue: bool):
-        return self.orchestrator.RejectMessage(
-            orchestrator_pb2.Reject(
-                id=orchestrator_pb2.MessageId(message_id=message_id),
+        return self.receiver.RejectMessage(
+            pb2.Reject(
+                id=pb2.MessageId(message_id=message_id),
                 requeue=requeue
             )
         ).status
@@ -177,6 +177,6 @@ def send():
 
 
 if __name__ == '__main__':
-    # receive()
-    send()
+    receive()
+    # send()
     # orchestrator()

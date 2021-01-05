@@ -14,6 +14,16 @@ class ReceiverStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.AcknowledgeMessage = channel.unary_unary(
+                '/receiver.Receiver/AcknowledgeMessage',
+                request_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.MessageId.SerializeToString,
+                response_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.FromString,
+                )
+        self.RejectMessage = channel.unary_unary(
+                '/receiver.Receiver/RejectMessage',
+                request_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.Reject.SerializeToString,
+                response_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.FromString,
+                )
         self.Receive = channel.unary_stream(
                 '/receiver.Receiver/Receive',
                 request_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverArgs.SerializeToString,
@@ -24,6 +34,18 @@ class ReceiverStub(object):
 class ReceiverServicer(object):
     """Missing associated documentation comment in .proto file."""
 
+    def AcknowledgeMessage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RejectMessage(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def Receive(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -33,6 +55,16 @@ class ReceiverServicer(object):
 
 def add_ReceiverServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'AcknowledgeMessage': grpc.unary_unary_rpc_method_handler(
+                    servicer.AcknowledgeMessage,
+                    request_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.MessageId.FromString,
+                    response_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.SerializeToString,
+            ),
+            'RejectMessage': grpc.unary_unary_rpc_method_handler(
+                    servicer.RejectMessage,
+                    request_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.Reject.FromString,
+                    response_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.SerializeToString,
+            ),
             'Receive': grpc.unary_stream_rpc_method_handler(
                     servicer.Receive,
                     request_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverArgs.FromString,
@@ -47,6 +79,40 @@ def add_ReceiverServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class Receiver(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def AcknowledgeMessage(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/receiver.Receiver/AcknowledgeMessage',
+            contracts_dot_rabbitmq_dot_receiver__pb2.MessageId.SerializeToString,
+            contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RejectMessage(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/receiver.Receiver/RejectMessage',
+            contracts_dot_rabbitmq_dot_receiver__pb2.Reject.SerializeToString,
+            contracts_dot_rabbitmq_dot_receiver__pb2.ActionStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def Receive(request,
