@@ -5,6 +5,7 @@ import (
 	"github.com/eibrunorodrigues/infra-grpc/rabbitmq/proto"
 	"github.com/eibrunorodrigues/rabbitmq-go/enums"
 	"github.com/eibrunorodrigues/rabbitmq-go/rabbitmq"
+	"github.com/eibrunorodrigues/rabbitmq-go/types"
 	"strings"
 )
 
@@ -58,7 +59,10 @@ func (o *Orchestrator) CheckIfQueueExists(_ context.Context, arg *proto.Name) (*
 		o.New()
 	}
 
-	return &proto.Status{Status: o.Client.CheckIfQueueExists(arg.Name)}, nil
+	boolResponse := o.Client.CheckIfQueueExists(arg.Name)
+	response := proto.Status{Status: boolResponse}
+
+	return &response, nil
 }
 
 //CheckIfRouterExists
@@ -76,7 +80,7 @@ func (o *Orchestrator) CreateQueue(_ context.Context, arg *proto.QueueCreation) 
 		o.New()
 	}
 
-	queueName, err := o.Client.CreateQueue(arg.QueueName, arg.CreateDlq, arg.IsAnExclusive)
+	queueName, err := o.Client.CreateQueue(arg.QueueName, arg.CreateDlq, arg.IsExclusive)
 	if err != nil {
 		return &proto.Name{}, err
 	}
@@ -142,7 +146,20 @@ func (o *Orchestrator) BindQueueToRouter(_ context.Context, arg *proto.Bind) (*p
 		o.New()
 	}
 
-	status, err := o.Client.BindQueueToRouter(arg.Source, arg.Destination, arg.Filters)
+	var err error
+	var status bool
+
+	if len(arg.Filters) == 1 && arg.Filters["routing_key"] != "" {
+		status, err = o.Client.BindQueueToRouter(arg.Source, arg.Destination, arg.Filters["routing_key"])
+	} else {
+		var filters []types.Filters
+		for key, value := range arg.Filters {
+			filters = append(filters, types.Filters{Key: key, Value: value})
+		}
+
+		status, err = o.Client.BindQueueToRouter(arg.Source, arg.Destination, filters)
+	}
+
 	if err != nil {
 		return &proto.Status{}, err
 	}
@@ -156,7 +173,20 @@ func (o *Orchestrator) BindRouterToRouter(_ context.Context, arg *proto.Bind) (*
 		o.New()
 	}
 
-	status, err := o.Client.BindRouterToRouter(arg.Source, arg.Destination, arg.Filters)
+	var err error
+	var status bool
+
+	if len(arg.Filters) == 1 && arg.Filters["routing_key"] != "" {
+		status, err = o.Client.BindRouterToRouter(arg.Source, arg.Destination, arg.Filters["routing_key"])
+	} else {
+		var filters []types.Filters
+		for key, value := range arg.Filters {
+			filters = append(filters, types.Filters{Key: key, Value: value})
+		}
+
+		status, err = o.Client.BindRouterToRouter(arg.Source, arg.Destination, filters)
+	}
+
 	if err != nil {
 		return &proto.Status{}, err
 	}

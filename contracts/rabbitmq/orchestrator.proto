@@ -3,7 +3,7 @@ syntax = "proto3";
 package orchestrator;
 
 message MessageId {
-  int64 messageId = 1;
+  int64 message_id = 1;
 }
 
 message Reject {
@@ -16,15 +16,15 @@ message Name {
 }
 
 message QueueCreation {
-  string queueName = 1;
-  bool createDlq = 2;
-  bool isAnExclusive = 3;
+  string queue_name = 1;
+  bool create_dlq = 2;
+  bool is_exclusive = 3;
 }
 
 message RouterCreation {
-  string routerName = 1;
+  string router_name = 1;
   RouterPrefix prefix = 2;
-  RouterType routerType = 3;
+  RouterType router_type = 3;
 }
 
 message Bind {

@@ -1,6 +1,5 @@
 from typing import Dict, Union
 import json
-
 # header
 # destiny_type
 # destination
@@ -25,7 +24,7 @@ class Message:
         filters: Dict[str, any],
         destiny_type: DestinyType = DestinyType.QUEUE
     ):
-        assert isinstance(filters, dict)
+        assert isinstance(dict(filters), dict)
         assert isinstance(destination, str)
         assert isinstance(content, dict) or isinstance(content, str)
         assert isinstance(destiny_type, str)

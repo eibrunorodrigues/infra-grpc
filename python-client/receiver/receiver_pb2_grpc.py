@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from receiver import receiver_pb2 as receiver_dot_receiver__pb2
+from . import receiver_pb2 as contracts_dot_rabbitmq_dot_receiver__pb2
 
 
 class ReceiverStub(object):
@@ -16,8 +16,8 @@ class ReceiverStub(object):
         """
         self.Receive = channel.unary_stream(
                 '/receiver.Receiver/Receive',
-                request_serializer=receiver_dot_receiver__pb2.ReceiverArgs.SerializeToString,
-                response_deserializer=receiver_dot_receiver__pb2.ReceiverResponse.FromString,
+                request_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverArgs.SerializeToString,
+                response_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverResponse.FromString,
                 )
 
 
@@ -35,8 +35,8 @@ def add_ReceiverServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Receive': grpc.unary_stream_rpc_method_handler(
                     servicer.Receive,
-                    request_deserializer=receiver_dot_receiver__pb2.ReceiverArgs.FromString,
-                    response_serializer=receiver_dot_receiver__pb2.ReceiverResponse.SerializeToString,
+                    request_deserializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverArgs.FromString,
+                    response_serializer=contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -60,7 +60,7 @@ class Receiver(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/receiver.Receiver/Receive',
-            receiver_dot_receiver__pb2.ReceiverArgs.SerializeToString,
-            receiver_dot_receiver__pb2.ReceiverResponse.FromString,
+            contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverArgs.SerializeToString,
+            contracts_dot_rabbitmq_dot_receiver__pb2.ReceiverResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

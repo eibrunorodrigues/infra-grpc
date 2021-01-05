@@ -46,6 +46,7 @@ func (r *Receiver) Receive(args *proto.ReceiverArgs, server proto.Receiver_Recei
 			Destination:   receiverModel.RouterOrigin,
 			Content:       message.Body,
 			IsARedelivery: receiverModel.IsARedelivery,
+			MessageId:     int64(receiverModel.MessageId),
 		}
 
 		if err := server.Send(&resp); err != nil {
