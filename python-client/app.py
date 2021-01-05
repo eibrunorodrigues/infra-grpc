@@ -1,11 +1,13 @@
 import grpc
-import receiver.receiver_pb2_grpc as pb2_grpc
-import receiver.receiver_pb2 as pb2
 from models.receiver import Receiver as ReceiverModel
 from models.sender import Message, DestinyType
 from typing import List
 import time
 
+import receiver.receiver_pb2_grpc as pb2_grpc
+import receiver.receiver_pb2 as pb2
+from orchestrator import orchestrator_pb2_grpc
+from orchestrator import orchestrator_pb2
 from sender import sender_pb2_grpc
 from sender import sender_pb2
 
@@ -13,6 +15,7 @@ from sender import sender_pb2
 class BrokerClient(object):
     """
     Client for gRPC functionality
+    py -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./receiver/receiver.proto
     """
 
     def __init__(self):
@@ -26,11 +29,43 @@ class BrokerClient(object):
         # bind the client and the server
         self.receiver = pb2_grpc.ReceiverStub(self.channel)
         self.sender = sender_pb2_grpc.SenderStub(self.channel)
+        self.orchestrator = orchestrator_pb2_grpc.OrchestratorStub(self.channel)
         self.__messages: List[Message] = []
 
     def publish_message(self, message: Message):
         assert isinstance(message, Message)
         self.__messages.append(message)
+
+    def acknowledge_message(self, args: orchestrator_pb2.MessageId):
+        return True
+
+    def reject_message(self, args: orchestrator_pb2.Reject):
+        return True
+
+    def check_if_queue_exists(self, args: orchestrator_pb2.Name) :
+        return True
+
+    def check_if_router_exists(self, args: orchestrator_pb2.Name) :
+        return True
+
+    def create_queue(self, args: orchestrator_pb2.QueueCreation):
+        return True
+
+    def create_router(self, args: orchestrator_pb2.RouterCreation):
+        return True
+
+    def delete_queue(self, args: orchestrator_pb2.Name):
+        return True
+
+    def delete_router(self, args: orchestrator_pb2.Name):
+        return True
+
+    def bind_queue_to_router(self, args: orchestrator_pb2.Bind):
+        return True
+
+    def bind_router_to_router(self, args: orchestrator_pb2.Bind):
+        return True
+
 
     def receive_messages(self, queue_name):
         """
